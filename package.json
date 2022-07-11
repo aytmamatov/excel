@@ -1,0 +1,24 @@
+{
+  "name": "excel",
+  "version": "1.0.0",
+  "description": "JavaScript Excel App",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aytmamatov/excel.git"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "excel"
+  ],
+  "author": "Aytmamatov Musa <black.nobody.anb@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aytmamatov/excel/issues"
+  },
+  "homepage": "https://github.com/aytmamatov/excel#readme"
+}
