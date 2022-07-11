@@ -20,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/aytmamatov/excel/issues"
   },
-  "homepage": "https://github.com/aytmamatov/excel#readme"
+  "homepage": "https://github.com/aytmamatov/excel#readme",
+  "private": true
 }
