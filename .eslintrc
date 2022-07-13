@@ -7,7 +7,15 @@
   },
   "rules": {
     "object-curly-spacing": ["warn", "always"],
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "require-jsdoc": "off",
+    "max-len": [
+      "warn",
+      {
+        "code": 100
+      }
+    ],
+    "operator-linebreak": "off"
   },
   "extends": ["eslint:recommended", "google"]
 }
