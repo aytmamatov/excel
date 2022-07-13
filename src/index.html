@@ -6,13 +6,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
   <title>Excel</title>
 </head>
 
 <body>
   <div id="app" class="container">
     <div class="excel">
-      <div class="excel__header"></div>
+      <div class="excel__header">
+        <input class="input" type="text" value="New table">
+
+        <div>
+          <button class="btn">
+            <i class="material-icons">
+              delete
+            </i>
+          </button>
+          <button class="btn">
+            <i class="material-icons">
+              exit_to_app
+            </i>
+          </button>
+        </div>
+      </div>
       <div class="excel__toolbar"></div>
       <div class="excel__formula"></div>
       <div class="excel__table"></div>
