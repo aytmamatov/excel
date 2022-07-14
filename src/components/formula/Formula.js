@@ -10,6 +10,11 @@ export class Formula extends ExcelComponent {
     });
   }
 
+  onInput(event) {
+
+  }
+
+
   toHTML() {
     return `
       <div class="info">fx</div>
