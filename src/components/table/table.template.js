@@ -10,7 +10,7 @@ function createCell(content = '') {
 function createColumn(content = '') {
   return `<div class="column">
     ${content}
-    <div class="column--resize"></div>
+    <div class="column--resize" data-resize="column"></div>
   </div>`;
 }
 
@@ -19,7 +19,7 @@ function createRow(content, number = '') {
     <div class="row">
       <div class="row-info">
         ${number}
-        ${number && '<div class="row--resize"></div>'}
+        ${number && '<div class="row--resize data-resize="row""></div>'}
       </div>
       <div class="row-data">
         ${content}
