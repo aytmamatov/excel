@@ -8,13 +8,19 @@ function createCell(content = '') {
 }
 
 function createColumn(content = '') {
-  return `<div class="column">${content}</div>`;
+  return `<div class="column">
+    ${content}
+    <div class="column--resize"></div>
+  </div>`;
 }
 
 function createRow(content, number = '') {
   return `
     <div class="row">
-      <div class="row-info">${number}</div>
+      <div class="row-info">
+        ${number}
+        ${number && '<div class="row--resize"></div>'}
+      </div>
       <div class="row-data">
         ${content}
       </div>
