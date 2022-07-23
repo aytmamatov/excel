@@ -1,9 +1,9 @@
 import { ExcelComponent } from '@/core/ExcelComponent';
 import { createTable } from '@/components/table/table.template';
 import { resizeHandler } from '@/components/table/table.resize';
-import { shouldResize } from '@/components/table/table.functions';
+import { shouldResize, shouldSelect } from '@/components/table/table.functions';
 import { TableSelection } from '@/components/table/TableSelection';
-import { $ } from '@/core/dom';
+import { selectHandler } from './table.select';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
@@ -23,22 +23,17 @@ export class Table extends ExcelComponent {
 
     const $cell = this.$root.find('[data-id="1:1"]');
     this.selection.select($cell);
-
-    document.onclick = (e) => {
-      const idDataSet = $(e.target).dataSet.id;
-      if (idDataSet) {
-        const previosCells = this.$root.findAll('.selected');
-        previosCells.forEach((previosCell) => $(previosCell).removeClass('selected'));
-        const $cell = this.$root.find(`[data-id="${idDataSet}"]`);
-        this.selection.select($cell);
-      }
-    };
   }
 
-
   onMousedown(event) {
-    if (shouldResize) {
+    const idDataSet = shouldSelect(event);
+    const resizeDataSet = shouldResize(event);
+
+    if (resizeDataSet) {
       resizeHandler(this.$root, event);
+    }
+    if (idDataSet) {
+      selectHandler(this.$root, idDataSet, this.selection);
     }
   }
 
