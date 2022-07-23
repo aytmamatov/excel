@@ -21,15 +21,15 @@ export class Table extends ExcelComponent {
       const $resizer = $(event.target);
       const $parent = $resizer.closest('[data-type="resizable"]');
       const $coords = $parent.getCoords();
-      const dataCell = $parent.$el.dataset.cell;
-      const columns = this.$root.$el.querySelectorAll(`[data-cell="${dataCell}"]`);
+      const dataCell = $parent.dataSet.cell;
+      const columns = this.$root.findAll(`[data-cell="${dataCell}"]`);
 
       document.onmousemove = (e) => {
-        switch ($resizer.$el.dataset.resize) {
+        switch ($resizer.dataSet.resize) {
           case TABLE.ROW: {
-            const delta = e.pageY - $coords.top;
+            const delta = e.pageY - $coords.bottom;
             const value = $coords.height + delta;
-            $parent.$el.style.height = value + 'px';
+            $parent.css({ height: value + 'px' });
             break;
           }
           case TABLE.COLUMN: {
@@ -37,10 +37,10 @@ export class Table extends ExcelComponent {
             const value = $coords.width + delta;
 
             columns.forEach((column) => {
-              column.style.width = value + 'px';
+              $(column).css({ width: value + 'px' });
             });
 
-            $parent.$el.style.width = value + 'px';
+            $parent.css({ width: value + 'px' });
             break;
           }
           default:
