@@ -13,15 +13,17 @@ export class Table extends ExcelComponent {
     });
   }
 
+  prepare() {
+    this.selection = new TableSelection();
+  }
+
   init() {
     super.init();
 
-    this.selection = new TableSelection();
     const $cell = this.$root.find('[data-id="1:1"]');
     this.selection.select($cell);
   }
 
-  prepare() {}
 
   onMousedown(event) {
     if (shouldResize) {
