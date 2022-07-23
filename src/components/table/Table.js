@@ -9,12 +9,14 @@ const TABLE = {
 
 function getRowCoords(e, coords) {
   const delta = e.pageY - coords.bottom;
-  return coords.height + delta + 'px';
+  const height = coords.height + delta + 'px';
+  return { delta, height };
 }
 
 function getColumnCoords(e, coords) {
   const delta = e.pageX - coords.right;
-  return coords.width + delta + 'px';
+  const width = coords.width + delta + 'px';
+  return { delta, width };
 }
 
 export class Table extends ExcelComponent {
@@ -31,16 +33,20 @@ export class Table extends ExcelComponent {
       const $resizer = $(event.target);
       const $parent = $resizer.closest('[data-type="resizable"]');
       const $coords = $parent.getCoords();
-      const dataCell = $parent.dataSet.cell;
-      const columns = this.$root.findAll(`[data-cell="${dataCell}"]`);
+      const type = $resizer.dataSet.resize;
+      const sideProp = type === TABLE.COLUMN ? 'bottom': 'right';
+
+      $resizer.css({ opacity: 1, [sideProp]: '-5000px' });
 
       document.onmousemove = (e) => {
-        switch ($resizer.dataSet.resize) {
+        switch (type) {
           case TABLE.ROW: {
-            return $parent.css({ height: getRowCoords(e, $coords) });
+            const { delta } = getRowCoords(e, $coords);
+            return $resizer.css({ bottom: -delta + 'px' });
           }
           case TABLE.COLUMN: {
-            return $parent.css({ width: getColumnCoords(e, $coords) });
+            const { delta } = getColumnCoords(e, $coords);
+            return $resizer.css({ right: -delta + 'px' });
           }
           default:
             break;
@@ -48,13 +54,20 @@ export class Table extends ExcelComponent {
       };
 
       document.onmouseup = (e) => {
-        const width = getColumnCoords(e, $coords);
+        $resizer.css({ opacity: 0, right: 0, bottom: 0 });
 
-        columns.forEach((column) => {
-          $(column).css({ width });
-        });
+        if (type === TABLE.COLUMN) {
+          const { width } = getColumnCoords(e, $coords);
+          $parent.css({ width });
+          this.$root.findAll(`[data-cell="${$parent.dataSet.cell}"]`)
+              .forEach((column) => $(column).css({ width }));
+        } else {
+          const { height } = getRowCoords(e, $coords);
+          $parent.css({ height });
+        }
 
         document.onmousemove = null;
+        document.onmouseup = null;
       };
     }
   }
