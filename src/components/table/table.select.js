@@ -1,8 +1,6 @@
 import { $ } from '@/core/dom';
 
-export function selectHandler($root, event, selection) {
-  const previosCells = $root.findAll('.selected');
-  previosCells.forEach((previosCell) => $(previosCell).removeClass('selected'));
+export function selectHandler(event, selection) {
   selection.select($(event.target));
 }
 
