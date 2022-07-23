@@ -7,12 +7,22 @@ const TABLE = {
   COLUMN: 'column',
 };
 
+function getRowCoords(e, coords) {
+  const delta = e.pageY - coords.bottom;
+  return coords.height + delta + 'px';
+}
+
+function getColumnCoords(e, coords) {
+  const delta = e.pageX - coords.right;
+  return coords.width + delta + 'px';
+}
+
 export class Table extends ExcelComponent {
   static className = 'excel__table'
 
   constructor($root) {
     super($root, {
-      listeners: ['mousedown', 'mouseup'],
+      listeners: ['mousedown'],
     });
   }
 
@@ -27,32 +37,27 @@ export class Table extends ExcelComponent {
       document.onmousemove = (e) => {
         switch ($resizer.dataSet.resize) {
           case TABLE.ROW: {
-            const delta = e.pageY - $coords.bottom;
-            const value = $coords.height + delta;
-            $parent.css({ height: value + 'px' });
-            break;
+            return $parent.css({ height: getRowCoords(e, $coords) });
           }
           case TABLE.COLUMN: {
-            const delta = e.pageX - $coords.right;
-            const value = $coords.width + delta;
-
-            columns.forEach((column) => {
-              $(column).css({ width: value + 'px' });
-            });
-
-            $parent.css({ width: value + 'px' });
-            break;
+            return $parent.css({ width: getColumnCoords(e, $coords) });
           }
           default:
             break;
         }
       };
 
-      document.onmouseup = ( ) => document.onmousemove = null;
+      document.onmouseup = (e) => {
+        const width = getColumnCoords(e, $coords);
+
+        columns.forEach((column) => {
+          $(column).css({ width });
+        });
+
+        document.onmousemove = null;
+      };
     }
   }
-
-  onMouseup() {}
 
   toHTML() {
     return createTable();
