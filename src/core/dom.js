@@ -65,6 +65,15 @@ class Dom {
   css(styles = {}) {
     Object.entries(styles).forEach(([key, value]) => this.$el.style[key] = value);
   }
+
+  getId(parse) {
+    const currentId = this.$el.dataset.id;
+    if (parse) {
+      const [row, col] = currentId.split(':');
+      return { row: +row, col: +col };
+    }
+    return currentId;
+  }
 }
 
 export function $(selector) {

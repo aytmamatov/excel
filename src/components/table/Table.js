@@ -33,7 +33,7 @@ export class Table extends ExcelComponent {
       resizeHandler(this.$root, event);
     }
     if (idDataSet) {
-      selectHandler(event, this.selection);
+      selectHandler(this.$root, event, this.selection);
     }
   }
 
