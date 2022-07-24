@@ -8,6 +8,10 @@ import { $ } from '@/core/dom';
 
 const KEY_CODES = {
   TAB: 'Tab',
+  ARROW_DOWN: 'ArrowDown',
+  ARROW_RIGHT: 'ArrowRight',
+  ARROW_LEFT: 'ArrowLeft',
+  ARROW_UP: 'ArrowUp',
 };
 
 export class Table extends ExcelComponent {
@@ -43,11 +47,14 @@ export class Table extends ExcelComponent {
   }
 
   onKeydown(event) {
+    const $target = $(event.target);
     const eventCode = event.code;
-    const nextElementSibling = $(event.target.nextElementSibling);
-
-    if (eventCode === KEY_CODES.TAB && nextElementSibling.exist()) {
-      this.selection.select(nextElementSibling);
+    const nextElement = $($target.isNextElement());
+    if (eventCode === KEY_CODES.TAB && nextElement.exist()) {
+      this.selection.select(nextElement);
+    }
+    if (eventCode === KEY_CODES.ARROW_DOWN) {
+      const { row, col } = $target.getId(true);
     }
   }
 

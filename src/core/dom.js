@@ -75,6 +75,10 @@ class Dom {
     return currentId;
   }
 
+  isNextElement() {
+    return this.$el.nextElementSibling;
+  }
+
   exist() {
     return this.$el;
   }
