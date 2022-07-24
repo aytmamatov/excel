@@ -74,6 +74,10 @@ class Dom {
     }
     return currentId;
   }
+
+  exist() {
+    return this.$el;
+  }
 }
 
 export function $(selector) {

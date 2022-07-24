@@ -4,13 +4,18 @@ import { resizeHandler } from '@/components/table/table.resize';
 import { shouldResize, shouldSelect } from '@/components/table/table.functions';
 import { TableSelection } from '@/components/table/TableSelection';
 import { selectHandler } from './table.select';
+import { $ } from '@/core/dom';
+
+const KEY_CODES = {
+  TAB: 'Tab',
+};
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
 
   constructor($root) {
     super($root, {
-      listeners: ['mousedown'],
+      listeners: ['mousedown', 'keydown'],
     });
   }
 
@@ -34,6 +39,15 @@ export class Table extends ExcelComponent {
     }
     if (idDataSet) {
       selectHandler(this.$root, event, this.selection);
+    }
+  }
+
+  onKeydown(event) {
+    const eventCode = event.code;
+    const nextElementSibling = $(event.target.nextElementSibling);
+
+    if (eventCode === KEY_CODES.TAB && nextElementSibling.exist()) {
+      this.selection.select(nextElementSibling);
     }
   }
 
