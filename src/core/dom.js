@@ -82,6 +82,11 @@ class Dom {
   exist() {
     return this.$el;
   }
+
+  focus() {
+    this.$el.focus();
+    return this;
+  }
 }
 
 export function $(selector) {
