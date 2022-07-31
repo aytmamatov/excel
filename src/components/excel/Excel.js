@@ -6,11 +6,12 @@ export class Excel {
     this.$el = $(selector);
     this.components = options.components || [];
     this.emitter = new Emitter();
+    this.store = options.store;
   }
 
   getRoot() {
     const $root = $.create('div', 'excel');
-    const componentOptions = { emitter: this.emitter };
+    const componentOptions = { emitter: this.emitter, store: this.store };
 
     this.components = this.components.map((Component) => {
       const $el = $.create('div', Component.className);

@@ -44,6 +44,7 @@ export class Table extends ExcelComponent {
   selectCell(cell) {
     this.selection.select(cell);
     this.$emit('table:keydown', cell.text());
+    this.$dispatch({ type: 'TEST' });
   }
 
   onMousedown(event) {
