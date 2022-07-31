@@ -2,11 +2,12 @@ import { ExcelComponent } from '@/core/ExcelComponent';
 import { createTable } from '@/components/table/table.template';
 import { resizeHandler } from '@/components/table/table.resize';
 import {
-  shouldResize, shouldSelect, getNextSelector, KEY_CODES,
+  shouldResize, shouldSelect, getNextSelector,
 } from '@/components/table/table.functions';
 import { TableSelection } from '@/components/table/TableSelection';
 import { selectHandler } from './table.select';
 import { $ } from '@/core/dom';
+import { KEY_CODES } from '@/config';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'

@@ -1,5 +1,6 @@
 import { ExcelComponent } from '@/core/ExcelComponent';
 import { $ } from '@core/dom';
+import { KEY_CODES } from '@/config';
 
 export class Formula extends ExcelComponent {
   static className = 'excel__formula'
@@ -36,7 +37,8 @@ export class Formula extends ExcelComponent {
   }
 
   onKeydown(event ) {
-    if (event.key === 'Enter') {
+    const KEYS = [KEY_CODES.ENTER, KEY_CODES.TAB];
+    if (KEYS.includes(event.key)) {
       event.preventDefault();
       this.$emit('formula:focus');
     }

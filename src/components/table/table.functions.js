@@ -1,11 +1,4 @@
-const KEY_CODES = {
-  TAB: 'Tab',
-  ARROW_DOWN: 'ArrowDown',
-  ARROW_RIGHT: 'ArrowRight',
-  ARROW_LEFT: 'ArrowLeft',
-  ARROW_UP: 'ArrowUp',
-  ENTER: 'Enter',
-};
+import { KEY_CODES } from '@/config';
 
 function shouldResize(event) {
   return event.target.dataset?.resize;
@@ -39,7 +32,6 @@ function getNextSelector(key, id) {
 }
 
 export {
-  KEY_CODES,
   shouldResize,
   shouldSelect,
   getNextSelector,
