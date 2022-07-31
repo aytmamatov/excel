@@ -14,7 +14,7 @@ export class Table extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown'],
+      listeners: ['mousedown', 'keydown', 'input'],
       ...options,
     });
   }
@@ -55,6 +55,7 @@ export class Table extends ExcelComponent {
   onKeydown(event) {
     const eventKey = event.key;
     const keys = Object.values(KEY_CODES);
+
     if (keys.includes(eventKey) && !event.shiftKey) {
       event.preventDefault();
       const id = this.selection.current.getId(true);
@@ -66,6 +67,10 @@ export class Table extends ExcelComponent {
         this.$emit('table:keydown', $cell.text());
       }
     }
+  }
+
+  onInput(event) {
+    this.$emit('table:keydown', $(event.target).text());
   }
 
   toHTML() {
