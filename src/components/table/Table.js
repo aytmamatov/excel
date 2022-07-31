@@ -9,6 +9,8 @@ import { selectHandler } from './table.select';
 import { $ } from '@/core/dom';
 import { KEY_CODES } from '@/config';
 
+const DEFAULT_CELL = '[data-id="1:1"]';
+
 export class Table extends ExcelComponent {
   static className = 'excel__table'
 
@@ -27,8 +29,8 @@ export class Table extends ExcelComponent {
   init() {
     super.init();
 
-    const $cell = this.$root.find('[data-id="1:1"]');
-    this.selection.select($cell);
+    const $cell = this.$root.find(DEFAULT_CELL);
+    this.selectCell($cell);
 
     this.$on('formula:text', (text) => {
       this.selection.current.text(text);
@@ -37,6 +39,11 @@ export class Table extends ExcelComponent {
     this.$on('formula:focus', () => {
       this.selection.current.focus();
     });
+  }
+
+  selectCell(cell) {
+    this.selection.select(cell);
+    this.$emit('table:keydown', cell.text());
   }
 
   onMousedown(event) {
@@ -64,14 +71,13 @@ export class Table extends ExcelComponent {
       const $cell = this.$root.find(nextSelector);
 
       if ($cell.exist()) {
-        this.selection.select($cell);
-        this.$emit('table:keydown', $cell.text());
+        this.selectCell($cell);
       }
     }
   }
 
   onInput(event) {
-    this.$emit('table:keydown', $(event.target).text());
+    this.selectCell($(event.target));
   }
 
   toHTML() {
