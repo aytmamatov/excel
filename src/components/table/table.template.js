@@ -16,7 +16,7 @@ function createCell(content = '', dataCell = '', row = '', col = '') {
 }
 
 function createColumn(content = '', idx = '') {
-  return `<div class="column" data-type="resizable" data-cell="${content}${idx}">
+  return `<div class="column" data-type="resizable" data-col="${idx}" data-cell="${content}${idx}">
     ${content}
     <div class="column--resize" data-resize="column"></div>
   </div>`;

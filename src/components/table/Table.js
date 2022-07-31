@@ -8,6 +8,7 @@ import { TableSelection } from '@/components/table/TableSelection';
 import { selectHandler } from './table.select';
 import { $ } from '@/core/dom';
 import { KEY_CODES } from '@/config';
+import { ACTIONS } from '@/redux/rootReducer';
 
 const DEFAULT_CELL = '[data-id="1:1"]';
 
@@ -39,12 +40,22 @@ export class Table extends ExcelComponent {
     this.$on('formula:focus', () => {
       this.selection.current.focus();
     });
+
+    this.$subscribe((state) => console.log(state));
   }
 
   selectCell(cell) {
     this.selection.select(cell);
     this.$emit('table:keydown', cell.text());
-    this.$dispatch({ type: 'TEST' });
+  }
+
+  async resizeTable(root, event) {
+    try {
+      const payload = await resizeHandler(root, event);
+      this.$dispatch({ type: ACTIONS.TABLE_RESIZE, payload } );
+    } catch (error) {
+      throw Error(error.message);
+    }
   }
 
   onMousedown(event) {
@@ -54,7 +65,7 @@ export class Table extends ExcelComponent {
     this.$emit('table:click', $(event.target).text());
 
     if (resizeDataSet) {
-      resizeHandler(this.$root, event);
+      this.resizeTable(this.$root, event);
     }
     if (idDataSet) {
       selectHandler(this.$root, event, this.selection);

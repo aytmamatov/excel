@@ -18,44 +18,53 @@ function getColumnCoords(e, coords) {
 }
 
 export function resizeHandler($root, event) {
-  const $resizer = $(event.target);
-  const $parent = $resizer.closest('[data-type="resizable"]');
-  const $coords = $parent.getCoords();
-  const type = $resizer.dataSet.resize;
-  const sideProp = type === TABLE.COLUMN ? 'bottom': 'right';
+  return new Promise((resolve) => {
+    const $resizer = $(event.target);
+    const $parent = $resizer.closest('[data-type="resizable"]');
+    const $coords = $parent.getCoords();
+    const type = $resizer.dataSet.resize;
+    const sideProp = type === TABLE.COLUMN ? 'bottom': 'right';
 
-  if (type) $resizer.css({ opacity: 1, [sideProp]: '-5000px' });
+    if (type) $resizer.css({ opacity: 1, [sideProp]: '-5000px' });
 
-  document.onmousemove = (e) => {
-    switch (type) {
-      case TABLE.ROW: {
-        const { delta } = getRowCoords(e, $coords);
-        return $resizer.css({ bottom: -delta + 'px' });
+    document.onmousemove = (e) => {
+      switch (type) {
+        case TABLE.ROW: {
+          const { delta } = getRowCoords(e, $coords);
+          return $resizer.css({ bottom: -delta + 'px' });
+        }
+        case TABLE.COLUMN: {
+          const { delta } = getColumnCoords(e, $coords);
+          return $resizer.css({ right: -delta + 'px' });
+        }
+        default:
+          break;
       }
-      case TABLE.COLUMN: {
-        const { delta } = getColumnCoords(e, $coords);
-        return $resizer.css({ right: -delta + 'px' });
-      }
-      default:
-        break;
-    }
-  };
+    };
 
-  document.onmouseup = (e) => {
-    document.onmousemove = null;
-    document.onmouseup = null;
+    document.onmouseup = (e) => {
+      document.onmousemove = null;
+      document.onmouseup = null;
 
-    if (type ) {
-      if (type === TABLE.COLUMN) {
+      if (type ) {
         const { width } = getColumnCoords(e, $coords);
-        $parent.css({ width });
-        $root.findAll(`[data-cell="${$parent.dataSet.cell}"]`)
-            .forEach((column) => $(column).css({ width }));
-      } else {
         const { height } = getRowCoords(e, $coords);
-        $parent.css({ height });
+
+        if (type === TABLE.COLUMN) {
+          $parent.css({ width });
+          $root.findAll(`[data-cell="${$parent.dataSet.cell}"]`)
+              .forEach((column) => $(column).css({ width }));
+        } else {
+          $parent.css({ height });
+        }
+
+        resolve({
+          value: type === TABLE.COLUMN ? width : height,
+          id: type === TABLE.COLUMN ? $parent.dataSet.col : $parent.dataSet.row,
+        });
+
+        $resizer.css({ opacity: 0, right: 0, bottom: 0 });
       }
-      $resizer.css({ opacity: 0, right: 0, bottom: 0 });
-    }
-  };
+    };
+  });
 }
