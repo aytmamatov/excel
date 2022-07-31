@@ -33,7 +33,7 @@ export class Table extends ExcelComponent {
     });
 
     this.$on('formula:focus', () => {
-      this.selection.select($cell);
+      this.selection.current.focus();
     });
   }
 
