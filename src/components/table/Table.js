@@ -6,6 +6,7 @@ import {
 } from '@/components/table/table.functions';
 import { TableSelection } from '@/components/table/TableSelection';
 import { selectHandler } from './table.select';
+import { $ } from '@/core/dom';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
@@ -41,6 +42,8 @@ export class Table extends ExcelComponent {
     const idDataSet = shouldSelect(event);
     const resizeDataSet = shouldResize(event);
 
+    this.$emit('table:click', $(event.target).text());
+
     if (resizeDataSet) {
       resizeHandler(this.$root, event);
     }
@@ -60,6 +63,7 @@ export class Table extends ExcelComponent {
 
       if ($cell.exist()) {
         this.selection.select($cell);
+        this.$emit('table:keydown', $cell.text());
       }
     }
   }
