@@ -28,7 +28,7 @@ export class Table extends ExcelComponent {
     const $cell = this.$root.find('[data-id="1:1"]');
     this.selection.select($cell);
 
-    this.emitter.subscribe('formula:text', (text) => {
+    this.$on('formula:text', (text) => {
       this.selection.current.text(text);
     });
   }
