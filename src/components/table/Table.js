@@ -31,6 +31,10 @@ export class Table extends ExcelComponent {
     this.$on('formula:text', (text) => {
       this.selection.current.text(text);
     });
+
+    this.$on('formula:focus', () => {
+      this.selection.select($cell);
+    });
   }
 
   onMousedown(event) {
