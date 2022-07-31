@@ -24,7 +24,7 @@ export function resizeHandler($root, event) {
   const type = $resizer.dataSet.resize;
   const sideProp = type === TABLE.COLUMN ? 'bottom': 'right';
 
-  $resizer.css({ opacity: 1, [sideProp]: '-5000px' });
+  if (type) $resizer.css({ opacity: 1, [sideProp]: '-5000px' });
 
   document.onmousemove = (e) => {
     switch (type) {
@@ -42,19 +42,20 @@ export function resizeHandler($root, event) {
   };
 
   document.onmouseup = (e) => {
-    $resizer.css({ opacity: 0, right: 0, bottom: 0 });
-
-    if (type === TABLE.COLUMN) {
-      const { width } = getColumnCoords(e, $coords);
-      $parent.css({ width });
-      $root.findAll(`[data-cell="${$parent.dataSet.cell}"]`)
-          .forEach((column) => $(column).css({ width }));
-    } else {
-      const { height } = getRowCoords(e, $coords);
-      $parent.css({ height });
-    }
-
     document.onmousemove = null;
     document.onmouseup = null;
+
+    if (type ) {
+      if (type === TABLE.COLUMN) {
+        const { width } = getColumnCoords(e, $coords);
+        $parent.css({ width });
+        $root.findAll(`[data-cell="${$parent.dataSet.cell}"]`)
+            .forEach((column) => $(column).css({ width }));
+      } else {
+        const { height } = getRowCoords(e, $coords);
+        $parent.css({ height });
+      }
+      $resizer.css({ opacity: 0, right: 0, bottom: 0 });
+    }
   };
 }
